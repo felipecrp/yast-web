@@ -1,12 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.scss';
-import StatusPage from './status_report/status_page';
+import StatusPage from './status_report/StatusPage';
 
 function App() {
   return (
     <div className="app">
-      <StatusPage></StatusPage>
+      <StatusPage projectId={1}></StatusPage>
     </div>
   );
 }
