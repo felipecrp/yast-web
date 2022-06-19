@@ -1,31 +1,52 @@
 import { useEffect, useState } from "react";
+import './StatusPage.scss'
 
+type Project = {
+  id: number,
+  name: String,
+  lastReport: String,
+  stats: any,
+  workItems: {
+    done?: WorkItem[],
+    inProgress?: WorkItem[],
+    todo?: WorkItem[],
+  }
+}
+
+type WorkItem = {
+  id: number,
+  name: String,
+}
 
 function StatusPage(props: { projectId: number }) {
-  const [project, setProject] = useState({
-    "id": props.projectId,
-    "name": "ABC",
-    "lastReport": `
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima id 
-      voluptatem accusantium aut corrupti. Asperiores saepe reprehenderit, 
-      cumque ipsam totam, quaerat error est, eveniet consequatur facere dolor!`,
-    "stats": {
-    },
-    "workItems": {
-      "done": [
-        { "id": 1, "name": "Interface X" },
-        { "id": 2, "name": "Access to the server API" }
-      ],
-      "inProgress": [
-        { "id": 3, "name": "Main API server" },
-        { "id": 4, "name": "Feature B" }
-      ]  
-    }
-  });
+  const [project, setProject] = useState<Project|null>(null);
 
   useEffect(() => {
+    setProject({
+      "id": props.projectId,
+      "name": "ABC",
+      "lastReport": `
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima id 
+              voluptatem accusantium aut corrupti. Asperiores saepe reprehenderit, 
+              cumque ipsam totam, quaerat error est, eveniet consequatur facere dolor!`,
+      "stats": {
+      },
+      "workItems": {
+        "done": [
+          { "id": 1, "name": "Interface X" },
+          { "id": 2, "name": "Access to the server API" }
+        ],
+        "inProgress": [
+          { "id": 3, "name": "Main API server" },
+          { "id": 4, "name": "Feature B" }
+        ]
+      }
+    });
+  }, []);
 
-  });
+  if (!project) {
+    return null;
+  }
 
   return (
     <div className="status_page">
@@ -33,33 +54,42 @@ function StatusPage(props: { projectId: number }) {
       <div className="main">
         <div className="content">
           <p className="last-report">{project.lastReport}</p>
-          <h2>Done work items</h2>
-          <ul className="work-items-list done">
-            {project.workItems.done.map((workItem) => <WorkItem workItem={workItem}></WorkItem>)}
-          </ul>
-          <h2>In progress work items</h2>
-          <ul className="work-items-list in-progress">
-            {project.workItems.inProgress.map((workItem) => <WorkItem workItem={workItem}></WorkItem>)}
-          </ul>
+          <WorkItemList name="Done" workItems={project.workItems.done}></WorkItemList>
+          <WorkItemList name="In progress" workItems={project.workItems.inProgress}></WorkItemList>
         </div>
       </div>
     </div>
   );
 }
 
-function WorkItemList(props: any) {
+function WorkItemList(props: { name: string, workItems?: WorkItem[] }) {
   return (
     <div>
-      <h2>Done work items</h2>
-      <table>
+      <table className="workitem-list">
+        <thead>
+          <tr>
+            <th className="workitem-name">{props.name} work items</th>
+            <th className="workitem-fn-size">Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.workItems?.map((workItem) => <WorkItem workItem={workItem}></WorkItem>)} 
+        </tbody>
       </table>
     </div>
   );
 }
 
-function WorkItem(props: { workItem: { id: number, name: String }}) {
-  return (<li><a href={props.workItem.id.toString()}>{props.workItem.name}</a></li>);
+function WorkItem(props: { workItem: WorkItem }) {
+  return (
+    <tr>
+      <td className="workitem-name">
+        <a href={props.workItem.id.toString()}>{props.workItem.name}</a>
+      </td>
+      <td className="workitem-fn-size">
+        1
+      </td>
+    </tr>);
 }
-
 
 export default StatusPage;
