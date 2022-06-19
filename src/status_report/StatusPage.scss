@@ -1,3 +1,4 @@
+@import "../../node_modules/bootstrap/scss/bootstrap";
 
 table.workitem-list {
     width: 100%;
@@ -5,13 +6,8 @@ table.workitem-list {
     margin-top: 1em;
     margin-bottom: 1em;
 
-    thead > tr > th {
-        border-bottom: 1px solid #000;
-    }
-
-    tbody > tr > td {
-        
-    }
+    @extend .table;
+    
     th.workitem-fn-size, td.workitem-fn-size {
         text-align: right;
     }
