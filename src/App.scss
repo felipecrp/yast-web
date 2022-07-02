@@ -1,19 +1,20 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 .app {
-    @extend .container;
+  @extend .container;
 }
 
-.main {
-    @extend .row;
-}
-
-.content {
-    @extend .col-lg-6;
-    @extend .col-md-12;
-}
-
-.sidebar {
-    @extend .col-lg-6;
-    @extend .col-md-12;
-}
+//
+// .main {
+//     @extend .row;
+// }
+//
+// .content {
+//     @extend .col-lg-6;
+//     @extend .col-md-12;
+// }
+//
+// .sidebar {
+//     @extend .col-lg-6;
+//     @extend .col-md-12;
+// }

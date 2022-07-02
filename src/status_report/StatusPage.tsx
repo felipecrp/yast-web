@@ -49,14 +49,18 @@ function StatusPage(props: { projectId: number }) {
   }
 
   return (
-    <div className="status_page">
+    <div className="status-page">
       <h1>{project.name}</h1>
-      <div className="main">
-        <div className="content">
-          <p className="last-report">{project.lastReport}</p>
-          <WorkItemList name="Done" workItems={project.workItems.done}></WorkItemList>
-          <WorkItemList name="In progress" workItems={project.workItems.inProgress}></WorkItemList>
-        </div>
+      <div className="sprint-report">
+        <h2>Sprint report</h2>
+        <p className="last-report">{project.lastReport}</p>
+        <WorkItemList name="Done in the sprint" workItems={project.workItems.done}></WorkItemList>
+        <WorkItemList name="In progress" workItems={project.workItems.inProgress}></WorkItemList>
+      </div>
+      <div className="project-report">
+        <h2>Project overview</h2>
+        <WorkItemList name="Todo" workItems={project.workItems.todo}></WorkItemList>
+        <WorkItemList name="Done" workItems={project.workItems.done}></WorkItemList>
       </div>
     </div>
   );
@@ -64,30 +68,39 @@ function StatusPage(props: { projectId: number }) {
 
 function WorkItemList(props: { name: string, workItems?: WorkItem[] }) {
   return (
-    <div>
-      <table className="workitem-list">
+    <div className="workitem-list">
+      <table>
         <thead>
           <tr>
-            <th className="workitem-name">{props.name} work items</th>
+            <th className="workitem-name">{props.name}</th>
             <th className="workitem-fn-size">Size</th>
           </tr>
         </thead>
         <tbody>
-          {props.workItems?.map((workItem) => <WorkItem workItem={workItem}></WorkItem>)} 
+          {props.workItems
+            ? props.workItems?.map((workItem) => <WorkItem workItem={workItem}></WorkItem>)
+            : <WorkItem workItem={null}></WorkItem>
+          }
         </tbody>
       </table>
     </div>
   );
 }
 
-function WorkItem(props: { workItem: WorkItem }) {
+function WorkItem(props: { workItem: WorkItem|null }) {
   return (
     <tr>
       <td className="workitem-name">
-        <a href={props.workItem.id.toString()}>{props.workItem.name}</a>
+        {props.workItem
+          ? <a href={props.workItem.id.toString()}>{props.workItem.name}</a>
+          : "-"
+        }
       </td>
       <td className="workitem-fn-size">
-        1
+        {props.workItem
+          ? 1
+          : 0
+        }
       </td>
     </tr>);
 }
